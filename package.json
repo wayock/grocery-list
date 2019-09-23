@@ -4,8 +4,14 @@
   "description": "Grocery list that can be shared and updated in real time.",
   "main": "src/server.js",
   "scripts": {
-    "test": "export NODE_ENV=test&& jasmine"
+    "test": "export NODE_ENV=test&& jasmine",
+    "start": "node src/server.js"
   },
   "author": "wayock",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jasmine": "^3.5.0",
+    "request": "^2.88.0"
+  }
 }
