@@ -43,14 +43,17 @@
           <section class="container col-md-10 col-md-offset-1 border  rounded p-3 mb-2 bg-info text-white"">
 
             <h2 class="card-title">Groceries</h2>
-            <p class="card-text ">
 
               <ul class="list-group">
   <!-- #1 -->
           <% groceries.forEach((grocery) => { %>
   <!-- #2 -->
             <li class="list-group-item">
-              <a href="/groceries/<%= grocery.id %>"> <%= grocery.title %> </a>
+              <a href="/groceries/<%= grocery.id %>">
+                <%= grocery.item %>
+                <%= grocery.quantity%>
+                <%= grocery.note %>
+              </a>
             </li>
           <% }) %>
         </ul>
