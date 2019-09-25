@@ -37,4 +37,15 @@ describe("routes: groceries", () => {
       });
     });
   });
+
+  describe("GET /groceries/new", () => {
+    it("should render a new grocery item form", done => {
+      request.get(`${base}new`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("New Item");
+        done();
+      });
+    });
+  });
+
 });

@@ -9,5 +9,8 @@ module.exports = {
          res.render("groceries/index", {groceries});
        }
      })
+  },
+  new(req, res, next){
+    res.render("groceries/new");
   }
 }
