@@ -46,6 +46,15 @@ module.exports = {
         res.redirect(303, "/groceries")
       }
     });
+  },
+  edit(req, res, next){
+    groceryQueries.getGrocery(req.params.id, (err, grocery) => {
+      if(err || grocery == null){
+        res.redirect(404, "/")
+      } else {
+        res.render("groceries/edit", {grocery});
+      }
+    });
   }
 
 }

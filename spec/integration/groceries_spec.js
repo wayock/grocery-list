@@ -112,4 +112,15 @@ describe("routes: groceries", () => {
     });
   });
 
+  describe("GET /groceries/:id/edit", () => {
+    it("should render a view with an edit grocery item form", (done) => {
+      request.get(`${base}${this.grocery.id}/edit`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Edit Item");
+        expect(body).toContain("bread");
+        done();
+      });
+    });
+  });
+
 });

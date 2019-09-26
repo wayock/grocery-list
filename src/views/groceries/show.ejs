@@ -15,6 +15,7 @@
           <li>Note: <%= grocery.note %></li>
         </ul>
       </p>
+      <a href="/groceries/<%= grocery.id %>/edit" class="btn btn-warning">Edit</a> &nbsp&nbsp
       <form style="display:initial" action="/groceries/<%= grocery.id %>/destroy" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
