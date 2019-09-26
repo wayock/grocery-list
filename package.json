@@ -10,6 +10,7 @@
   "author": "wayock",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
     "dotenv": "^8.1.0",
     "ejs": "^2.7.1",
     "express": "^4.17.1",
@@ -18,5 +19,8 @@
     "pg-hstore": "^2.3.3",
     "request": "^2.88.0",
     "sequelize": "^5.19.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.2"
   }
 }
