@@ -12,6 +12,16 @@ module.exports = {
       });
   },
 
+  getGrocery(id, callback){
+    return Grocery.findByPk(id)
+    .then((grocery) => {
+      callback(null, grocery);
+    })
+    .catch((err) => {
+      callback(err);
+    })
+  },
+
   addGroceries(newGrocery, callback){
     return Grocery.create({
       item: newGrocery.item,

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+    <% include ../static/partials/navbar.ejs %>
+
+    <main class="container">
+      <h1><%= grocery.item %></h1>
+
+      <p>
+        <ul style="list-style-type:none">
+          <li>Quantity: <%= grocery.quantity %></li>
+          <li>Note: <%= grocery.note %></li>
+        </ul>
+      </p>
+    </main>
+
+    <% include ../static/partials/baseScripts.ejs %>
+
+  </body>
+</html>

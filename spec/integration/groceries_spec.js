@@ -49,26 +49,24 @@ describe("routes: groceries", () => {
   });
 
   describe("POST /groceries/create", () => {
-      const options = {
-        url: `${base}create`,
-        form: {
-          item: "Ice Cream",
-          note: "Chocolate Peanut Butter",
-          quantity: 2,
-          purchased: false,
-          userId: 1
-        }
-      };
+    const options = {
+      url: `${base}create`,
+      form: {
+        item: "Ice Cream",
+        note: "Chocolate Peanut Butter",
+        quantity: 2,
+        purchased: false,
+        userId: 1
+      }
+    };
 
-      it("should create a new item and redirect", (done) => {
+    it("should create a new item and redirect", done => {
+      request.post(
+        options,
 
-//#1
-        request.post(options,
-
-//#2
-          (err, res, body) => {
-            Grocery.findOne({where: {item: "Ice Cream"}})
-            .then((grocery) => {
+        (err, res, body) => {
+          Grocery.findOne({ where: { item: "Ice Cream" } })
+            .then(grocery => {
               expect(res.statusCode).toBe(303);
               expect(grocery.item).toBe("Ice Cream");
               expect(grocery.note).toBe("Chocolate Peanut Butter");
@@ -77,13 +75,23 @@ describe("routes: groceries", () => {
               expect(grocery.userId).toBe(1);
               done();
             })
-            .catch((err) => {
+            .catch(err => {
               console.log(err);
               done();
             });
-          }
-        );
+        }
+      );
+    });
+  });
+
+  describe("GET /groceries/:id", () => {
+    it("should render a view with the selected grocery item", (done) => {
+      request.get(`${base}${this.grocery.id}`, (err, res, body) => {
+        expect(err).toBeNull;
+        expect(body).toContain("bread");
+        done();
       });
     });
+  });
 
 });
