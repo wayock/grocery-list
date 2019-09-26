@@ -123,4 +123,32 @@ describe("routes: groceries", () => {
     });
   });
 
+  describe("GET /groceries/:id/update", () => {
+    it("should update the grocery item with the given values", (done) => {
+      const options = {
+        url: `${base}${this.grocery.id}/update`,
+        form: {
+          item: "Wheat Bread",
+          note: "Dutch Farms Brand",
+          quantity: 2,
+          purchased: false,
+          userId: 1
+        }
+      };
+      request.post(options,
+      (err, res, body) => {
+        expect(err).toBeNull();
+        Grocery.findOne({
+          where: { id: this.grocery.id }
+        })
+        .then((grocery) => {
+          expect(grocery.item).toBe("Wheat Bread");
+          expect(grocery.quantity).toBe(2);
+          expect(grocery.note).toBe("Dutch Farms Brand");
+          done();
+        });
+      });
+    });
+  });
+
 });

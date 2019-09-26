@@ -48,5 +48,24 @@ module.exports = {
     .catch((err) => {
       callback(err);
     })
+  },
+
+  updateGrocery(id, updatedGrocery, callback){
+    return Grocery.findByPk(id)
+    .then((grocery) => {
+      if(!grocery){
+        return callback("Item not found");
+      }
+      grocery.update(updatedGrocery, {
+        fields: Object.keys(updatedGrocery)
+      })
+      .then(() => {
+        callback(null, grocery);
+      })
+      .catch((err) => {
+        callback(err);
+      });
+    });
   }
+
 };

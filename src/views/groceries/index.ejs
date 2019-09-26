@@ -16,8 +16,8 @@
 
           <div>
             <h1 class="display-3">The Grocery List</h1>
-
           </div>
+
         </header>
         <!-- Page Features -->
         <!-- /.row -->
@@ -26,9 +26,11 @@
           <section class="container col-md-10 col-md-offset-1 border  rounded p-3 mb-2 bg-info text-white"">
 
             <h2 class="card-title">Groceries</h2>
+            <br>
+              <a href="/groceries/new" class="btn btn-success">Add Item</a>
 
               <ul class="list-group">
-
+            <br>
               <% groceries.forEach((grocery) => { %>
 
                 <li class="list-group-item">
@@ -37,6 +39,7 @@
                     <%= grocery.quantity%> &nbsp&nbsp
                     <%= grocery.note %> &nbsp&nbsp
                   </a>
+                  <a href="/groceries/<%= grocery.id %>/edit" class="btn btn-warning">Edit</a> &nbsp&nbsp
                   <form style="display:initial" action="/groceries/<%= grocery.id %>/destroy" method="post">
                     <button type="submit" class="btn btn-danger">Delete</button>
                   </form>
