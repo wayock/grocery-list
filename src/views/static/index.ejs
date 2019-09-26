@@ -8,7 +8,7 @@
     <% include ../static/partials/navbar.ejs %>
 
       <!-- Page Content -->
-      <main class="container border-success ">
+      <main class="container  ">
 
         <!--  Header -->
         <header class="row centered-form center-block text-center">
@@ -29,18 +29,21 @@
             <p class="card-text ">
 
               <ul class="list-group">
-  <!-- #1 -->
-          <% groceries.forEach((grocery) => { %>
-  <!-- #2 -->
-            <li class="list-group-item">
-              <a href="/groceries/<%= grocery.id %>">
-                <%= grocery.item %>
-                <%= grocery.quantity%>
-                <%= grocery.note %>
-              </a>
-            </li>
-          <% }) %>
-        </ul>
+
+              <% groceries.forEach((grocery) => { %>
+
+                <li class="list-group-item">
+                  <a href="/groceries/<%= grocery.id %>">
+                    <%= grocery.item %> &nbsp&nbsp
+                    <%= grocery.quantity%> &nbsp&nbsp
+                    <%= grocery.note %> &nbsp&nbsp
+                  </a>
+                  <form style="display:initial" action="/groceries/<%= grocery.id %>/destroy" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </li>
+              <% }) %>
+            </ul>
 
           </section>
         </section>

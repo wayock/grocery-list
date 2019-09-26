@@ -36,5 +36,17 @@ module.exports = {
     .catch((err) => {
       callback(err);
     })
+  },
+
+  deleteGrocery(id, callback){
+    return Grocery.destroy({
+      where: {id}
+    })
+    .then((grocery) => {
+      callback(null, grocery);
+    })
+    .catch((err) => {
+      callback(err);
+    })
   }
 };

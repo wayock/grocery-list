@@ -37,5 +37,15 @@ module.exports = {
         res.render("groceries/show", {grocery});
       }
     });
+  },
+  destroy(req, res, next){
+    groceryQueries.deleteGrocery(req.params.id, (err, grocery) => {
+      if(err){
+        res.redirect(500, `/groceries/${grocery.id}`)
+      } else {
+        res.redirect(303, "/groceries")
+      }
+    });
   }
+
 }

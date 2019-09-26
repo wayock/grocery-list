@@ -87,9 +87,27 @@ describe("routes: groceries", () => {
   describe("GET /groceries/:id", () => {
     it("should render a view with the selected grocery item", (done) => {
       request.get(`${base}${this.grocery.id}`, (err, res, body) => {
-        expect(err).toBeNull;
+        expect(err).toBeNull();
         expect(body).toContain("bread");
         done();
+      });
+    });
+  });
+
+  describe("POST /groceries/:id/destroy", () => {
+    it("should delete the grocery item with the associated ID", (done) => {
+      Grocery.findAll()
+      .then((groceries) => {
+        const groceryCountBeforeDelete = groceries.length;
+        expect(groceryCountBeforeDelete).toBe(1);
+        request.post(`${base}${this.grocery.id}/destroy`, (err, res, body) => {
+          Grocery.findAll()
+          .then((groceries) => {
+            expect(err).toBeNull();
+            expect(groceries.length).toBe(groceryCountBeforeDelete - 1);
+            done();
+          })
+        });
       });
     });
   });
