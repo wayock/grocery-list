@@ -48,4 +48,42 @@ describe("routes: groceries", () => {
     });
   });
 
+  describe("POST /groceries/create", () => {
+      const options = {
+        url: `${base}create`,
+        form: {
+          item: "Ice Cream",
+          note: "Chocolate Peanut Butter",
+          quantity: 2,
+          purchased: false,
+          userId: 1
+        }
+      };
+
+      it("should create a new item and redirect", (done) => {
+
+//#1
+        request.post(options,
+
+//#2
+          (err, res, body) => {
+            Grocery.findOne({where: {item: "Ice Cream"}})
+            .then((grocery) => {
+              expect(res.statusCode).toBe(303);
+              expect(grocery.item).toBe("Ice Cream");
+              expect(grocery.note).toBe("Chocolate Peanut Butter");
+              expect(grocery.quantity).toBe(2);
+              expect(grocery.purchased).toBe(false);
+              expect(grocery.userId).toBe(1);
+              done();
+            })
+            .catch((err) => {
+              console.log(err);
+              done();
+            });
+          }
+        );
+      });
+    });
+
 });
