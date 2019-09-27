@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <% include ../static/partials/head.ejs %>
+  </head>
+  <body>
+    <!-- Navigation -->
+    <% include ../static/partials/navbar.ejs %>
+
+      <!-- Page Content -->
+      <main class="container  ">
+
+        <!--  Header -->
+        <header class="row centered-form center-block text-center">
+          <section class="container col-md-12  text-dark">
+
+          <div>
+            <h1 class="display-3">The Grocery List</h1>
+          </div>
+
+        </header>
+        <!-- Page Features -->
+        <!-- /.row -->
+        <section class="row centered-form center-block text-center">
+
+          <section class="container col-md-10 col-md-offset-1 border  rounded p-3 mb-2 bg-info text-white"">
+
+            <h2 class="card-title">Lists</h2>
+            <br>
+              <a href="/groceries/new" class="btn btn-success">Update to Add List</a>
+
+              <ul class="list-group">
+            <br>
+              <% lists.forEach((list) => { %>
+
+                <li class="list-group-item">
+                  <a href="/lists/<%= list.id %>">
+                    <%= list.title %>
+                    <%= list.description %>
+                  </a>
+                  
+                </li>
+              <% }) %>
+            </ul>
+          </section>
+        </section>
+
+
+      </main>
+      <!-- /.container -->
+
+      <% include ../static/partials/baseScripts.ejs %>
+    </body>
+</html>
