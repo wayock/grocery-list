@@ -58,5 +58,19 @@ module.exports = {
         res.render("lists/edit", { list });
       }
     });
-  }
+  },
+
+  update(req, res, next){
+
+//#1
+     listQueries.updateList(req.params.id, req.body, (err, list) => {
+
+//#2
+       if(err || list == null){
+         res.redirect(404, `/lists/${req.params.id}/edit`);
+       } else {
+         res.redirect(`/lists/`);
+       }
+     });
+   }
 };

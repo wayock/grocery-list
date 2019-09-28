@@ -38,93 +38,107 @@ describe("routes : lists", () => {
   });
 
   describe("GET /lists/new", () => {
+    it("should render a new list form", done => {
+      request.get(`${base}new`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("New List");
+        done();
+      });
+    });
+  });
 
-     it("should render a new list form", (done) => {
-       request.get(`${base}new`, (err, res, body) => {
-         expect(err).toBeNull();
-         expect(body).toContain("New List");
-         done();
-       });
-     });
-   });
+  describe("POST /lists/create", () => {
+    const options = {
+      url: `${base}create`,
+      form: {
+        title: "Birthday Party Shopping",
+        description: "Max's Birthday on October 31",
+        private: true,
+        userId: 1
+      }
+    };
+    it("should create a new list and redirect", done => {
+      request.post(
+        options,
 
-   describe("POST /lists/create", () => {
-   const options = {
-     url: `${base}create`,
-     form: {
-       title: "Birthday Party Shopping",
-       description: "Max's Birthday on October 31",
-       private: true,
-       userId: 1
-     }
-   };
-   it("should create a new list and redirect", (done) => {
+        (err, res, body) => {
+          List.findOne({ where: { title: "Birthday Party Shopping" } })
+            .then(list => {
+              expect(res.statusCode).toBe(303);
+              expect(list.title).toBe("Birthday Party Shopping");
+              expect(list.description).toBe("Max's Birthday on October 31");
+              expect(list.private).toBe(true);
+              done();
+            })
+            .catch(err => {
+              console.log(err);
+              done();
+            });
+        }
+      );
+    });
+  });
 
-     request.post(options,
+  describe("GET /lists/:id", () => {
+    it("should render a view with the selected list", done => {
+      request.get(`${base}${this.list.id}`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Groceries");
+        expect(body).toContain("Family List");
+        done();
+      });
+    });
+  });
 
-       (err, res, body) => {
-         List.findOne({where: {title: "Birthday Party Shopping"}})
-         .then((list) => {
-           expect(res.statusCode).toBe(303);
-           expect(list.title).toBe("Birthday Party Shopping");
-           expect(list.description).toBe("Max's Birthday on October 31");
-           expect(list.private).toBe(true);
-           done();
-         })
-         .catch((err) => {
-           console.log(err);
-           done();
-         });
-       }
-     );
-   });
- });
+  describe("POST /lists/:id/destroy", () => {
+    it("should delete the list with the associated ID", done => {
+      List.findAll().then(lists => {
+        const listCountBeforeDelete = lists.length;
 
- describe("GET /lists/:id", () => {
+        expect(listCountBeforeDelete).toBe(1);
 
-     it("should render a view with the selected list", (done) => {
-       request.get(`${base}${this.list.id}`, (err, res, body) => {
-         expect(err).toBeNull();
-         expect(body).toContain("Groceries");
-         expect(body).toContain("Family List");
-         done();
-       });
-     });
-   });
-
-   describe("POST /lists/:id/destroy", () => {
-       it("should delete the list with the associated ID", (done) => {
-
-         List.findAll()
-         .then((lists) => {
-
-           const listCountBeforeDelete = lists.length;
-
-           expect(listCountBeforeDelete).toBe(1);
-
-           request.post(`${base}${this.list.id}/destroy`, (err, res, body) => {
-             List.findAll()
-             .then((lists) => {
-               expect(err).toBeNull();
-               expect(lists.length).toBe(listCountBeforeDelete - 1);
-               done();
-             })
-           });
-         });
-       });
-     });
-
-     describe("GET /lists/:id/edit", () => {
-
-        it("should render a view with an edit list form", (done) => {
-          request.get(`${base}${this.list.id}/edit`, (err, res, body) => {
+        request.post(`${base}${this.list.id}/destroy`, (err, res, body) => {
+          List.findAll().then(lists => {
             expect(err).toBeNull();
-            expect(body).toContain("Edit List");
-            expect(body).toContain("Groceries");
+            expect(lists.length).toBe(listCountBeforeDelete - 1);
             done();
           });
         });
-
       });
+    });
+  });
 
+  describe("GET /lists/:id/edit", () => {
+    it("should render a view with an edit list form", done => {
+      request.get(`${base}${this.list.id}/edit`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("Edit List");
+        expect(body).toContain("Groceries");
+        done();
+      });
+    });
+  });
+
+  describe("POST /lists/:id/update", () => {
+    it("should update the list with the given values", done => {
+      const options = {
+        url: `${base}${this.list.id}/update`,
+        form: {
+          title: "Christmas Shopping",
+          description: "Tis the season"
+        }
+      };
+      //#1
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
+        //#2
+        List.findOne({
+          where: { id: this.list.id }
+        }).then(list => {
+          expect(list.title).toBe("Christmas Shopping");
+          done();
+        });
+      });
+    });
+  });
 });
