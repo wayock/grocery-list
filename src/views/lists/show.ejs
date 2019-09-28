@@ -17,6 +17,7 @@
       </h1>
 
       <p>Description:&nbsp <%= list.description %></p>
+      <a href="/lists/<%= list.id %>/edit" class="btn btn-warning">Edit</a>
       <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>

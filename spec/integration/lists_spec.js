@@ -114,4 +114,17 @@ describe("routes : lists", () => {
        });
      });
 
+     describe("GET /lists/:id/edit", () => {
+
+        it("should render a view with an edit list form", (done) => {
+          request.get(`${base}${this.list.id}/edit`, (err, res, body) => {
+            expect(err).toBeNull();
+            expect(body).toContain("Edit List");
+            expect(body).toContain("Groceries");
+            done();
+          });
+        });
+
+      });
+
 });
