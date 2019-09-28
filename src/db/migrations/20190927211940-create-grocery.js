@@ -9,19 +9,31 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       item: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       note: {
         type: Sequelize.STRING
       },
       quantity: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       purchased: {
         type: Sequelize.BOOLEAN
       },
       userId: {
         type: Sequelize.INTEGER
+      },
+      listId:{
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        allowNull: false,
+        references: {
+          model: "Lists",
+          key: "id",
+          as: "listId"
+        },
       },
       createdAt: {
         allowNull: false,
