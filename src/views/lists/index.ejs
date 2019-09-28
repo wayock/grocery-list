@@ -27,7 +27,7 @@
 
             <h2 class="card-title">Lists</h2>
             <br>
-              <a href="/groceries/new" class="btn btn-success">Update to Add List</a>
+              <a href="/lists/new" class="btn btn-success">Create New List</a>
 
               <ul class="list-group">
             <br>
@@ -35,10 +35,18 @@
 
                 <li class="list-group-item">
                   <a href="/lists/<%= list.id %>">
-                    <%= list.title %>
-                    <%= list.description %>
-                  </a>
-                  
+                    <%= list.title %> &nbsp&nbsp
+
+                    <%= list.description %> &nbsp&nbsp
+                    <% if (list.private) { %>
+                       <ion-icon name="finger-print" style= "font-size: 18px;" ></ion-icon>
+                    <% } else { %>
+                       <ion-icon name="people" style= "font-size: 18px;"></ion-icon>
+                    <% } %>
+                  </a>              
+                  <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
                 </li>
               <% }) %>
             </ul>
