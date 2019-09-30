@@ -1,11 +1,11 @@
 const request = require("request");
 const server = require("../../src/server");
-const base = "http://localhost:3000/groceries/";
+const base = "http://localhost:3000/lists/";
 const sequelize = require("../../src/db/models/index").sequelize;
 const Grocery = require("../../src/db/models").Grocery;
 const List = require("../../src/db/models").List;
 
-describe("Grocery", () => {
+describe("routes : groceries", () => {
   beforeEach(done => {
     this.list;
     this.grocery;
@@ -14,28 +14,79 @@ describe("Grocery", () => {
         title: "Costco",
         description: "Great for bulk"
       })
-      .then((list) => {
-        this.list = list;
+        .then(list => {
+          this.list = list;
 
-        Grocery.create({
-          item: "bread",
-          note: "whatever is on sale",
-          quantity: 1,
-          purchased: false,
-          userId: 1,
-          listId: this.list.id
+          Grocery.create({
+            item: "bread",
+            note: "whatever is on sale",
+            quantity: 1,
+            purchased: false,
+            userId: 1,
+            listId: this.list.id
+          }).then(grocery => {
+            this.grocery = grocery;
+            done();
+          });
         })
-        .then((grocery) => {
-          this.grocery = grocery;
-          done();
-        });
-      })
-        .catch((err) => {
+        .catch(err => {
           console.log(err);
           done();
         });
     });
   });
+
+  describe("GET /lists/:listId/groceries/new", () => {
+    it("should render a new list form", done => {
+      request.get(`${base}${this.list.id}/groceries/new`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("New Item");
+        done();
+      });
+    });
+  });
+
+  describe("POST /lists/:listId/groceries/create", () => {
+    it("should create a new grocery item and redirect", done => {
+      const options = {
+        url: `${base}${this.list.id}/groceries/create`,
+        form: {
+          item: "bananas",
+          note: "organic",
+          quantity: 10,
+          purchased: false,
+          userId: 1,
+          listId: this.list.id
+        }
+      };
+      request.post(options, (err, res, body) => {
+        Grocery.findOne({ where: { item: "bananas" } })
+          .then(grocery => {
+            expect(grocery).not.toBeNull();
+            expect(grocery.item).toBe("bananas");
+            expect(grocery.note).toBe("organic");
+            expect(grocery.quantity).toBe(10);
+            expect(grocery.purchased).toBe(false);
+            expect(grocery.listId).not.toBeNull();
+            done();
+          })
+          .catch(err => {
+            done();
+          });
+      });
+    });
+  });
+
+  describe("GET /lists/:listId/groceries/:id", () => {
+    it("should render a view with the selected grocery item", (done) => {
+      request.get(`${base}${this.list.id}/groceries/${this.grocery.id}`, (err, res, body) => {
+        expect(err).toBeNull();
+        expect(body).toContain("bread");
+        done();
+      });
+    });
+  });
+
   // describe("GET /groceries", () => {
   //   it("should return a status code 200 and all groceries", done => {
   //     request.get(base, (err, res, body) => {
@@ -59,42 +110,8 @@ describe("Grocery", () => {
   //   });
   // });
   //
-  describe("#create()", () => {
 
-    it("should create a new item and assigned list", (done) => {
-      Grocery.create({
-        item: "bananas",
-        note: "organic",
-        quantity: 10,
-        purchased: false,
-        listId: this.list.id
-      })
-      .then((grocery) => {
-        //  expect(res.statusCode).toBe(303);
-          expect(grocery.item).toBe("bananas");
-          expect(grocery.note).toBe("organic");
-          expect(grocery.quantity).toBe(10);
-          expect(grocery.purchased).toBe(false);
-          //expect(grocery.listId).toBe(1);
-          done();
-        })
-        .catch(err => {
-          console.log(err);
-          done();
-        });
-      });
-    });
 
-  //
-  // describe("GET /groceries/:id", () => {
-  //   it("should render a view with the selected grocery item", (done) => {
-  //     request.get(`${base}${this.grocery.id}`, (err, res, body) => {
-  //       expect(err).toBeNull();
-  //       expect(body).toContain("bread");
-  //       done();
-  //     });
-  //   });
-  // });
   //
   // describe("POST /groceries/:id/destroy", () => {
   //   it("should delete the grocery item with the associated ID", (done) => {
@@ -152,5 +169,4 @@ describe("Grocery", () => {
   //     });
   //   });
   // });
-
 });

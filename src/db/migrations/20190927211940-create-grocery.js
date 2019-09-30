@@ -20,7 +20,8 @@ module.exports = {
         allowNull: false
       },
       purchased: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: false
       },
       userId: {
         type: Sequelize.INTEGER

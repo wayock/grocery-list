@@ -25,20 +25,18 @@
 
           <section class="container col-md-10 col-md-offset-1 border  rounded p-3 mb-2 bg-success text-white"">
 
-            <h2 class="card-title">Groceries</h2>
+            <h2 class="card-title">Lists</h2>
             <p class="card-text ">
 
               <ul class="list-group">
 
-              <% groceries.forEach((grocery) => { %>
+              <% lists.forEach((list) => { %>
 
                 <li class="list-group-item">
-                  <a href="/groceries/<%= grocery.id %>">
-                    <%= grocery.item %> &nbsp&nbsp
-                    <%= grocery.quantity%> &nbsp&nbsp
-                    <%= grocery.note %> &nbsp&nbsp
+                  <a href="/lists/<%= list.id %>">
+                    <%= list.title %> &nbsp&nbsp
                   </a>
-                  <form style="display:initial" action="/groceries/<%= grocery.id %>/destroy" method="post">
+                  <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
                     <button type="submit" class="btn btn-danger">Delete</button>
                   </form>
                 </li>

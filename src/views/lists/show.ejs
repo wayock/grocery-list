@@ -22,6 +22,19 @@
         <button type="submit" class="btn btn-danger">Delete</button>
       </form>
 
+      <h2>Groceries</h2>
+      <br>
+        <a href="/lists/<%= list.id %>/groceries/new" class="btn btn-success">New Item</a>
+      <br>
+
+       <ul class="list-group">
+         <% list.groceries.forEach((grocery) => { %>
+           <li class="list-group-item">
+             <a href="/lists/<%= list.id %>/groceries/<%= grocery.id %>"> <%= grocery.item %> </a>
+           </li>
+         <% }) %>
+       </ul>
+
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>
