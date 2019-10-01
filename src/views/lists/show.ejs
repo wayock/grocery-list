@@ -31,6 +31,9 @@
          <% list.groceries.forEach((grocery) => { %>
            <li class="list-group-item">
              <a href="/lists/<%= list.id %>/groceries/<%= grocery.id %>"> <%= grocery.item %> </a>
+             <form style="display:initial" action="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/destroy" method="post">
+               <button type="submit" class="btn btn-danger">Delete</button>
+             </form>
            </li>
          <% }) %>
        </ul>

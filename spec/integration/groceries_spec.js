@@ -87,6 +87,28 @@ describe("routes : groceries", () => {
     });
   });
 
+  describe("POST /lists/:listId/groceries/:id/destroy", () => {
+
+     it("should delete the grocery item with the associated ID", (done) => {
+
+//#1
+       expect(this.grocery.id).toBe(1);
+
+       request.post(`${base}${this.list.id}/groceries/${this.grocery.id}/destroy`, (err, res, body) => {
+
+//#2
+         Grocery.findByPk(1)
+         .then((grocery) => {
+           expect(err).toBeNull();
+           expect(grocery).toBeNull();
+           done();
+         })
+       });
+
+     });
+
+   });
+
   // describe("GET /groceries", () => {
   //   it("should return a status code 200 and all groceries", done => {
   //     request.get(base, (err, res, body) => {
@@ -100,16 +122,7 @@ describe("routes : groceries", () => {
   //   });
   // });
   //
-  // describe("GET /groceries/new", () => {
-  //   it("should render a new grocery item form", done => {
-  //     request.get(`${base}new`, (err, res, body) => {
-  //       expect(err).toBeNull();
-  //       expect(body).toContain("New Item");
-  //       done();
-  //     });
-  //   });
-  // });
-  //
+
 
 
   //

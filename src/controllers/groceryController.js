@@ -39,16 +39,16 @@ module.exports = {
         res.render("groceries/show", {grocery});
       }
     });
-  }
-  // destroy(req, res, next){
-  //   groceryQueries.deleteGrocery(req.params.id, (err, grocery) => {
-  //     if(err){
-  //       res.redirect(500, `/groceries/${grocery.id}`)
-  //     } else {
-  //       res.redirect(303, "/groceries")
-  //     }
-  //   });
-  // },
+  },
+  destroy(req, res, next){
+    groceryQueries.deleteGrocery(req.params.id, (err, deletedRecordsCount) => {
+      if(err){
+        res.redirect(500, `/lists/${req.params.listId}/groceries/${req.params.id}`)
+      } else {
+        res.redirect(303, `/lists/${req.params.listId}`)
+      }
+    });
+  },
   // edit(req, res, next){
   //   groceryQueries.getGrocery(req.params.id, (err, grocery) => {
   //     if(err || grocery == null){

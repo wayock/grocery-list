@@ -31,19 +31,19 @@ module.exports = {
     .catch((err) => {
       callback(err);
     })
-  }
+  },
 
-  // deleteGrocery(id, callback){
-  //   return Grocery.destroy({
-  //     where: {id}
-  //   })
-  //   .then((grocery) => {
-  //     callback(null, grocery);
-  //   })
-  //   .catch((err) => {
-  //     callback(err);
-  //   })
-  // },
+  deleteGrocery(id, callback){
+    return Grocery.destroy({
+      where: {id}
+    })
+    .then((deletedRecordsCount) => {
+      callback(null, deletedRecordsCount);
+    })
+    .catch((err) => {
+      callback(err);
+    })
+  },
   //
   // updateGrocery(id, updatedGrocery, callback){
   //   return Grocery.findByPk(id)
