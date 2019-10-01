@@ -24,8 +24,8 @@
         <section class="row centered-form center-block text-center">
 
           <section class="container col-md-10 col-md-offset-1 border  rounded p-3 mb-2 bg-info text-white"">
-            <h2> New Item </h2>
-            <form action="/groceries/create" method="post">
+            <h2>New Item</h2>
+            <form action="/lists/<%= listId %>/groceries/create" method="post">
               <div class="form-group">
                 <label for="item">Grocery Item</label>
                 <input type="text" class="form-control" name="item" aria-describedby="itemHelp" placeholder="Enter Item">

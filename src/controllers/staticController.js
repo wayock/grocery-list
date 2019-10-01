@@ -1,12 +1,12 @@
-const groceryQueries = require("../db/queries/groceries.js");
+const listQueries = require("../db/queries/lists.js");
 
 module.exports = {
   index(req, res, next){
-    groceryQueries.getAllGroceries((err, groceries) => {
+    listQueries.getAllLists((err, lists) => {
        if(err){
          res.redirect(500, "static/index");
        } else {
-         res.render("groceries/index", {groceries});
+         res.render("lists/index", {lists});
        }
      })
   }

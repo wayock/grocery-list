@@ -17,10 +17,27 @@
       </h1>
 
       <p>Description:&nbsp <%= list.description %></p>
-      <a href="/lists/<%= list.id %>/edit" class="btn btn-warning">Edit</a>
+      <a href="/lists/<%= list.id %>/edit" class="btn btn-secondary">Edit <%= list.title %></a>
       <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
-        <button type="submit" class="btn btn-danger">Delete</button>
+        <button type="submit" class="btn btn-secondary">Delete <%= list.title %></button>
       </form>
+
+      <h2>Groceries</h2>
+      <br>
+        <a href="/lists/<%= list.id %>/groceries/new" class="btn btn-primary">New Item</a>
+      <br>
+
+       <ul class="list-group">
+         <% list.groceries.forEach((grocery) => { %>
+           <li class="list-group-item">
+             <a href="/lists/<%= list.id %>/groceries/<%= grocery.id %>"> <%= grocery.item %> </a>
+             <a href="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/edit" class="btn btn-secondary">Edit</a>
+             <form style="display:initial" action="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/destroy" method="post">
+               <button type="submit" class="btn btn-secondary">Delete</button>
+             </form>
+           </li>
+         <% }) %>
+       </ul>
 
     </main>
 

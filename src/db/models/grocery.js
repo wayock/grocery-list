@@ -1,14 +1,32 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const Grocery = sequelize.define('Grocery', {
-    item: DataTypes.STRING,
+    item: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
     note: DataTypes.STRING,
-    quantity: DataTypes.INTEGER,
-    purchased: DataTypes.BOOLEAN,
-    userId: DataTypes.INTEGER
+    quantity: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    purchased: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false
+    },
+    userId: DataTypes.INTEGER,
+    listId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    }
   }, {});
   Grocery.associate = function(models) {
     // associations can be defined here
+    Grocery.belongsTo(models.List, {
+      foreignKey: "listId",
+      onDelete: "CASCADE"
+    });
   };
   return Grocery;
 };
