@@ -12,55 +12,54 @@ module.exports = {
   //       callback(err);
   //     });
   // },
-  //
-  getGrocery(id, callback){
+  
+  getGrocery(id, callback) {
     return Grocery.findByPk(id)
-    .then((grocery) => {
-      callback(null, grocery);
-    })
-    .catch((err) => {
-      callback(err);
-    })
+      .then(grocery => {
+        callback(null, grocery);
+      })
+      .catch(err => {
+        callback(err);
+      });
   },
 
-  addGroceries(newGrocery, callback){
+  addGroceries(newGrocery, callback) {
     return Grocery.create(newGrocery)
-    .then((grocery) => {
-      callback(null, grocery);
-    })
-    .catch((err) => {
-      callback(err);
-    })
+      .then(grocery => {
+        callback(null, grocery);
+      })
+      .catch(err => {
+        callback(err);
+      });
   },
 
-  deleteGrocery(id, callback){
+  deleteGrocery(id, callback) {
     return Grocery.destroy({
-      where: {id}
+      where: { id }
     })
-    .then((deletedRecordsCount) => {
-      callback(null, deletedRecordsCount);
-    })
-    .catch((err) => {
-      callback(err);
-    })
+      .then(deletedRecordsCount => {
+        callback(null, deletedRecordsCount);
+      })
+      .catch(err => {
+        callback(err);
+      });
   },
-  //
-  // updateGrocery(id, updatedGrocery, callback){
-  //   return Grocery.findByPk(id)
-  //   .then((grocery) => {
-  //     if(!grocery){
-  //       return callback("Item not found");
-  //     }
-  //     grocery.update(updatedGrocery, {
-  //       fields: Object.keys(updatedGrocery)
-  //     })
-  //     .then(() => {
-  //       callback(null, grocery);
-  //     })
-  //     .catch((err) => {
-  //       callback(err);
-  //     });
-  //   });
-  // }
 
+  updateGrocery(id, updatedGrocery, callback) {
+    return Grocery.findByPk(id).then(grocery => {
+      if (!grocery) {
+        return callback("Grocery item not found");
+      }
+      grocery
+        .update(updatedGrocery, {
+          fields: Object.keys(updatedGrocery)
+        })
+        .then(() => {
+          callback(null, grocery);
+        })
+        .catch(err => {
+          callback(err);
+        });
+    });
+  }
 };

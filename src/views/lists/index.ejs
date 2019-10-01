@@ -23,11 +23,11 @@
         <!-- /.row -->
         <section class="row centered-form center-block text-center">
 
-          <section class="container col-md-10 col-md-offset-1 border  rounded p-3 mb-2 bg-info text-white"">
+          <section class="container col-md-10 col-md-offset-1 border  rounded p-3 mb-2 bg-secondary text-white"">
 
             <h2 class="card-title">Lists</h2>
             <br>
-              <a href="/lists/new" class="btn btn-success">Create New List</a>
+              <a href="/lists/new" class="btn btn-primary ">Create New List</a>
 
               <ul class="list-group">
             <br>
@@ -44,9 +44,9 @@
                        <ion-icon name="people" style= "font-size: 18px;"></ion-icon>
                     <% } %>
                   </a>
-                  <a href="/lists/<%= list.id %>/edit" class="btn btn-warning">Edit</a>             
+                  <a href="/lists/<%= list.id %>/edit" class="btn btn-outline-secondary">Edit</a>
                   <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
-                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="submit" class="btn btn-outline-secondary">Delete</button>
                   </form>
                 </li>
               <% }) %>

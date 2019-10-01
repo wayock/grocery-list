@@ -78,108 +78,99 @@ describe("routes : groceries", () => {
   });
 
   describe("GET /lists/:listId/groceries/:id", () => {
-    it("should render a view with the selected grocery item", (done) => {
-      request.get(`${base}${this.list.id}/groceries/${this.grocery.id}`, (err, res, body) => {
-        expect(err).toBeNull();
-        expect(body).toContain("bread");
-        done();
-      });
+    it("should render a view with the selected grocery item", done => {
+      request.get(
+        `${base}${this.list.id}/groceries/${this.grocery.id}`,
+        (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("bread");
+          done();
+        }
+      );
     });
   });
 
   describe("POST /lists/:listId/groceries/:id/destroy", () => {
+    it("should delete the grocery item with the associated ID", done => {
+      //#1
+      expect(this.grocery.id).toBe(1);
 
-     it("should delete the grocery item with the associated ID", (done) => {
+      request.post(
+        `${base}${this.list.id}/groceries/${this.grocery.id}/destroy`,
+        (err, res, body) => {
+          //#2
+          Grocery.findByPk(1).then(grocery => {
+            expect(err).toBeNull();
+            expect(grocery).toBeNull();
+            done();
+          });
+        }
+      );
+    });
+  });
 
-//#1
-       expect(this.grocery.id).toBe(1);
+  describe("GET /lists/:listId/groceries/:id/edit", () => {
+    it("should render a view with an edit grocery item form", done => {
+      request.get(
+        `${base}${this.list.id}/groceries/${this.grocery.id}/edit`,
+        (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("Edit Item");
+          expect(body).toContain("bread");
+          expect(body).toContain("whatever is on sale");
+          expect(body).toContain(1);
+          done();
+        }
+      );
+    });
+  });
 
-       request.post(`${base}${this.list.id}/groceries/${this.grocery.id}/destroy`, (err, res, body) => {
+  describe("POST /lists/:listId/groceries/:id/update", () => {
+    it("should return a status code 302", done => {
+      request.post(
+        {
+          url: `${base}${this.list.id}/groceries/${this.grocery.id}/update`,
+          form: {
+            item: "Wheat Bread",
+            note: "Dutch Farms Brand",
+            quantity: 2,
+            purchased: false,
+            userId: 1,
+            listId: this.list.id
+          }
+        },
+        (err, res, body) => {
+          expect(res.statusCode).toBe(302);
+          done();
+        }
+      );
+    });
 
-//#2
-         Grocery.findByPk(1)
-         .then((grocery) => {
-           expect(err).toBeNull();
-           expect(grocery).toBeNull();
-           done();
-         })
-       });
+    it("should update the grocery item with the given values", done => {
+      const options = {
+        url: `${base}${this.list.id}/groceries/${this.grocery.id}/update`,
+        form: {
+          item: "Wheat Bread",
+          note: "Dutch Farms Brand",
+          quantity: 2,
+          purchased: false,
+          userId: 1,
+          listId: this.list.id
+        }
+      };
+      request.post(options, (err, res, body) => {
+        expect(err).toBeNull();
 
-     });
-
-   });
-
-  // describe("GET /groceries", () => {
-  //   it("should return a status code 200 and all groceries", done => {
-  //     request.get(base, (err, res, body) => {
-  //       expect(res.statusCode).toBe(200);
-  //       expect(err).toBeNull();
-  //       expect(body).toContain("bread");
-  //       expect(body).toContain("whatever is on sale");
-  //       expect(body).toContain(1);
-  //       done();
-  //     });
-  //   });
-  // });
-  //
-
-
-
-  //
-  // describe("POST /groceries/:id/destroy", () => {
-  //   it("should delete the grocery item with the associated ID", (done) => {
-  //     Grocery.findAll()
-  //     .then((groceries) => {
-  //       const groceryCountBeforeDelete = groceries.length;
-  //       expect(groceryCountBeforeDelete).toBe(1);
-  //       request.post(`${base}${this.grocery.id}/destroy`, (err, res, body) => {
-  //         Grocery.findAll()
-  //         .then((groceries) => {
-  //           expect(err).toBeNull();
-  //           expect(groceries.length).toBe(groceryCountBeforeDelete - 1);
-  //           done();
-  //         })
-  //       });
-  //     });
-  //   });
-  // });
-  //
-  // describe("GET /groceries/:id/edit", () => {
-  //   it("should render a view with an edit grocery item form", (done) => {
-  //     request.get(`${base}${this.grocery.id}/edit`, (err, res, body) => {
-  //       expect(err).toBeNull();
-  //       expect(body).toContain("Edit Item");
-  //       expect(body).toContain("bread");
-  //       done();
-  //     });
-  //   });
-  // });
-  //
-  // describe("GET /groceries/:id/update", () => {
-  //   it("should update the grocery item with the given values", (done) => {
-  //     const options = {
-  //       url: `${base}${this.grocery.id}/update`,
-  //       form: {
-  //         item: "Wheat Bread",
-  //         note: "Dutch Farms Brand",
-  //         quantity: 2,
-  //         purchased: false,
-  //         userId: 1
-  //       }
-  //     };
-  //     request.post(options,
-  //     (err, res, body) => {
-  //       expect(err).toBeNull();
-  //       Grocery.findOne({
-  //         where: { id: this.grocery.id }
-  //       })
-  //       .then((grocery) => {
-  //         expect(grocery.item).toBe("Wheat Bread");
-  //         expect(grocery.quantity).toBe(2);
-  //         expect(grocery.note).toBe("Dutch Farms Brand");
-  //         done();
-  //       });
-  //     });
-  //   });
-  // });
+        Grocery.findOne({
+          where: { id: this.grocery.id }
+        }).then(grocery => {
+          expect(grocery.item).toBe("Wheat Bread");
+          expect(grocery.note).toBe("Dutch Farms Brand");
+          expect(grocery.quantity).toBe(2);
+          expect(grocery.purchased).toBe(false);
+          done();
+        });
+      });
+    });
+  });
 });
