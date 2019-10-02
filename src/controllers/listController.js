@@ -49,6 +49,15 @@ module.exports = {
       }
     });
   },
+  destroyPurchased(req, res, next) {
+    listQueries.deletePurchased(req.params.id, (err, id) => {
+      if (err) {
+        res.redirect(500, `/lists/${id}`);
+      } else {
+        res.redirect(303, `/lists/${id}`);
+      }
+    });
+  },
 
   edit(req, res, next) {
     listQueries.getList(req.params.id, (err, list) => {

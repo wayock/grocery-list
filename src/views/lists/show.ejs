@@ -28,9 +28,17 @@
       <br>
 
        <ul class="list-group">
-         <% list.groceries.forEach((grocery) => { %>
+         <% list.groceries.sort((a,b) => a.purchased - b.purchased).forEach((grocery) => { %>
            <li class="list-group-item">
+             <a href="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/purchased" class="btn btn-outline-secondary">
+                <% if(grocery.purchased) { %>
+                    <ion-icon name="checkbox"></ion-icon>
+                <% } else { %>
+                    <ion-icon name="square-outline"></ion-icon>
+                <% } %>
+             </a>
              <a href="/lists/<%= list.id %>/groceries/<%= grocery.id %>"> <%= grocery.item %> </a>
+
              <a href="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/edit" class="btn btn-secondary">Edit</a>
              <form style="display:initial" action="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/destroy" method="post">
                <button type="submit" class="btn btn-secondary">Delete</button>
@@ -38,7 +46,9 @@
            </li>
          <% }) %>
        </ul>
-
+       <form style="display:initial" action="/lists/<%= list.id %>/destroy/purchased" method="post">
+         <button type="submit" class="btn btn-secondary">Delete Checked Items</button>
+       </form>
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>

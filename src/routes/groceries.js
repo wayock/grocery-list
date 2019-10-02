@@ -9,5 +9,6 @@ router.get("/lists/:listId/groceries/:id/edit", groceryController.edit);
 router.post("/lists/:listId/groceries/create", groceryController.create);
 router.post("/lists/:listId/groceries/:id/destroy", groceryController.destroy);
 router.post("/lists/:listId/groceries/:id/update", groceryController.update);
+router.get("/lists/:listId/groceries/:id/purchased", groceryController.togglePurchase);
 
 module.exports = router;
