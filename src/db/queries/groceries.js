@@ -12,7 +12,7 @@ module.exports = {
   //       callback(err);
   //     });
   // },
-  
+
   getGrocery(id, callback) {
     return Grocery.findByPk(id)
       .then(grocery => {
@@ -54,6 +54,21 @@ module.exports = {
         .update(updatedGrocery, {
           fields: Object.keys(updatedGrocery)
         })
+        .then(() => {
+          callback(null, grocery);
+        })
+        .catch(err => {
+          callback(err);
+        });
+    });
+  },
+  togglePurchase(id, callback) {
+    return Grocery.findByPk(id).then(grocery => {
+      if (!grocery) {
+        return callback("Grocery item not found");
+      }
+      grocery
+        .update({purchased: !grocery.purchased})
         .then(() => {
           callback(null, grocery);
         })

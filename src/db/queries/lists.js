@@ -50,6 +50,17 @@ module.exports = {
         callback(err);
       });
   },
+  deletePurchased(id, callback) {
+    return Grocery.destroy({
+      where: { listId: id, purchased: true }
+    })
+      .then(() => {
+        callback(null, id);
+      })
+      .catch(err => {
+        callback(err);
+      });
+  },
 
   updateList(id, updatedList, callback) {
     return List.findByPk(id).then(list => {

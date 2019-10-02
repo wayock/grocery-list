@@ -19,7 +19,6 @@ module.exports = {
       item: req.body.item,
       note: req.body.note,
       quantity: req.body.quantity,
-      purchased: false,
       userId: req.body.userId,
       listId: req.params.listId
     };
@@ -52,6 +51,7 @@ module.exports = {
       }
     });
   },
+  
   edit(req, res, next) {
     groceryQueries.getGrocery(req.params.id, (err, grocery) => {
       if (err || grocery == null) {
@@ -65,6 +65,15 @@ module.exports = {
     groceryQueries.updateGrocery(req.params.id, req.body, (err, grocery) => {
       if (err || grocery == null) {
         res.redirect(404,`/lists/${req.params.listId}/groceries/${req.params.id}/edit`);
+      } else {
+        res.redirect(`/lists/${req.params.listId}`);
+      }
+    });
+  },
+  togglePurchase(req, res, next) {
+    groceryQueries.togglePurchase(req.params.id,  (err, grocery) => {
+      if (err || grocery == null) {
+        res.redirect(404,`/lists/${req.params.listId}`);
       } else {
         res.redirect(`/lists/${req.params.listId}`);
       }
