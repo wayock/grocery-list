@@ -77,6 +77,33 @@ describe("routes : lists", () => {
         }
       );
     });
+    it("should not create a new list that fails validations", (done) => {
+       const options = {
+         url: `${base}${this.list.id}/create`,
+         form: {
+
+//#1
+           title: "",
+           description: "greats sales"
+         }
+       };
+
+       request.post(options,
+         (err, res, body) => {
+
+//#2
+           List.findOne({where: {title: ""}})
+           .then((list) => {
+               expect(list).toBeNull();
+               done();
+           })
+           .catch((err) => {
+             console.log(err);
+             done();
+           });
+         }
+       );
+     });
   });
 
   describe("GET /lists/:id", () => {

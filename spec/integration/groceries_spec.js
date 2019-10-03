@@ -75,6 +75,33 @@ describe("routes : groceries", () => {
           });
       });
     });
+    it("should not create a new grocery item that fails validations", (done) => {
+       const options = {
+         url: `${base}${this.list.id}/groceries/create`,
+         form: {
+
+//#1
+           item: "",
+           body: "b"
+         }
+       };
+
+       request.post(options,
+         (err, res, body) => {
+
+//#2
+           Grocery.findOne({where: {item: ""}})
+           .then((grocery) => {
+               expect(grocery).toBeNull();
+               done();
+           })
+           .catch((err) => {
+             console.log(err);
+             done();
+           });
+         }
+       );
+     });
   });
 
   describe("GET /lists/:listId/groceries/:id", () => {
