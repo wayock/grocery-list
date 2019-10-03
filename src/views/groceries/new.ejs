@@ -10,6 +10,8 @@
       <!-- Page Content -->
       <main class="container  ">
 
+        <% include ../static/partials/messages.ejs %>
+
         <!--  Header -->
         <header class="row centered-form center-block text-center">
           <section class="container col-md-12 col-md-offset-1 text-dark">
@@ -29,6 +31,7 @@
               <div class="form-group">
                 <label for="item">Grocery Item</label>
                 <input type="text" class="form-control" name="item" aria-describedby="itemHelp" placeholder="Enter Item">
+                <small class="text-dark" id="itemHelp">Grocery item cannot be empty.</small>
               </div>
               <div class="form-group">
                 <label for="quantity">Quantity</label>

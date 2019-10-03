@@ -10,6 +10,8 @@
       <!-- Page Content -->
       <main class="container  ">
 
+        <% include ../static/partials/messages.ejs %>
+
         <!--  Header -->
         <header class="row centered-form center-block text-center">
           <section class="container col-md-12 col-md-offset-1 text-dark">
@@ -29,6 +31,7 @@
               <div class="form-group">
                 <label for="title">Title</label>
                 <input type="text" class="form-control" name="title" aria-describedby="titleHelp" placeholder="Enter Title">
+                <small class="text-dark" id="titleHelp">List title cannot be empty.</small>
               </div>
               <div class="form-group">
                 <label for="description">Description</label>
