@@ -62,22 +62,30 @@ module.exports = {
       });
   },
 
-  updateList(id, updatedList, callback) {
-    return List.findByPk(id).then(list => {
+  updateList(req, updatedList, callback) {
+    return List.findByPk(req.params.id).then(list => {
       if (!list) {
         return callback("List not found");
       }
 
-      list
-        .update(updatedList, {
-          fields: Object.keys(updatedList)
-        })
-        .then(() => {
-          callback(null, list);
-        })
-        .catch(err => {
-          callback(err);
-        });
+      const authorized = new Authorizer(req.user, topic).update();
+
+       if(authorized) {
+
+        list
+          .update(updatedList, {
+            fields: Object.keys(updatedList)
+          })
+          .then(() => {
+            callback(null, list);
+          })
+          .catch(err => {
+            callback(err);
+          });
+        } else {
+          req.flash("notice", "You are not authorized to do that.");
+          callback("Forbidden");
+        }
     });
   }
 };

@@ -24,7 +24,14 @@ module.exports = {
         defaultValue: false
       },
       userId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        allowNull: false,
+        references: {
+          model: "Users",
+          key: "id",
+          as: "userId"
+        }
       },
       listId:{
         type: Sequelize.INTEGER,

@@ -1,5 +1,7 @@
 const groceryQueries = require("../db/queries/groceries.js");
 const listQueries = require("../db/queries/lists.js");
+const userQueries = require("../db/queries/users.js")
+
 
 module.exports = {
   index(req, res, next) {
@@ -19,9 +21,9 @@ module.exports = {
       item: req.body.item,
       note: req.body.note,
       quantity: req.body.quantity,
-      userId: req.body.userId,
-      listId: req.params.listId
-    };
+      userId: req.params.userId,
+      listId: req.user.id
+    }; console.log(newGrocery)
     groceryQueries.addGroceries(newGrocery, (err, grocery) => {
       if (err) {
         res.redirect(500, "/groceries/new");

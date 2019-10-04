@@ -1,5 +1,6 @@
 const Grocery = require("../models").Grocery;
 const List = require("../models").List;
+const User = require("../models").List;
 
 module.exports = {
   // getAllGroceries(callback) {
