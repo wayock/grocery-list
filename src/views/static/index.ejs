@@ -14,34 +14,12 @@
         <header class="row centered-form center-block text-center">
           <section class="container col-md-12 col-md-offset-1 border border-success rounded p-3 mb-2 text-dark">
 
-          <div>
-            <h1 class="display-3">The Grocery List</h1>
-
-          </div>
-        </header>
-        <!-- Page Features -->
-        <!-- /.row -->
-        <section class="row centered-form center-block text-center">
-
-          <section class="container col-md-10 col-md-offset-1 border  rounded p-3 mb-2 bg-success text-white"">
-
-            <h2 class="card-title">Lists</h2>
-            <p class="card-text ">
-
-              <ul class="list-group">
-
-              <% lists.forEach((list) => { %>
-
-                <li class="list-group-item">
-                  <a href="/lists/<%= list.id %>">
-                    <%= list.title %> &nbsp&nbsp
-                  </a>
-                  <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
-                    <button type="submit" class="btn btn-danger">Delete</button>
-                  </form>
-                </li>
-              <% }) %>
-            </ul>
+     <header class="jumbotron my-4">
+       <h1 class="display-3">The Grocery List</h1>
+       <p class="lead">An application for users to share information.</p>
+       <a href="#" class="btn btn-primary btn-lg">Sign up</a>
+       <a href="/users/sign_up" class="btn btn-primary btn-lg">Sign up</a>
+    </header>
 
           </section>
         </section>

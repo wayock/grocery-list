@@ -19,7 +19,7 @@ module.exports = {
       title: req.body.title,
       description: req.body.description,
       private: req.body.private,
-      userId: req.body.userId
+      userId: 1 // req.body.userId
     };
     listQueries.addList(newList, (err, list) => {
       if (err) {
