@@ -20,7 +20,7 @@ module.exports = {
       note: req.body.note,
       quantity: req.body.quantity,
       userId: req.body.userId,
-      listId: 1 //req.params.listId
+      listId: req.params.listId
     };
     groceryQueries.addGroceries(newGrocery, (err, grocery) => {
       if (err) {
