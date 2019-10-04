@@ -1,6 +1,7 @@
 const groceryQueries = require("../db/queries/groceries.js");
 const listQueries = require("../db/queries/lists.js");
-const userQueries = require("../db/queries/users.js")
+const userQueries = require("../db/queries/users.js");
+const Authorizer = require("../policies/groceries");
 
 
 module.exports = {
@@ -17,20 +18,26 @@ module.exports = {
     res.render("groceries/new", { listId: req.params.listId });
   },
   create(req, res, next) {
-    let newGrocery = {
-      item: req.body.item,
-      note: req.body.note,
-      quantity: req.body.quantity,
-      userId: req.params.userId,
-      listId: req.user.id
-    }; console.log(newGrocery)
-    groceryQueries.addGroceries(newGrocery, (err, grocery) => {
-      if (err) {
-        res.redirect(500, "/groceries/new");
+    const authorized = new Authorizer(req.user).create();
+      if(authorized){
+        let newGrocery = {
+          item: req.body.item,
+          note: req.body.note,
+          quantity: req.body.quantity,
+          userId: req.user.id,
+          listId: req.params.listId
+        }; console.log(newGrocery)
+        groceryQueries.addGroceries(newGrocery, (err, grocery) => {
+          if (err) {
+            res.redirect(500, "/groceries/new");
+          } else {
+            res.redirect(303, `/lists/${newGrocery.listId}`);
+          }
+        });
       } else {
-        res.redirect(303, `/lists/${newGrocery.listId}`);
+        req.flash("notice", "You are not authorized to do that.");
+        res.redirect("/lists");
       }
-    });
   },
   show(req, res, next) {
     groceryQueries.getGrocery(req.params.id, (err, grocery) => {
@@ -60,6 +67,7 @@ module.exports = {
         res.redirect(404, "/");
       } else {
         res.render("groceries/edit", { grocery });
+        console.log(grocery)
       }
     });
   },
