@@ -11,8 +11,7 @@ describe("routes : lists", () => {
       List.create({
         title: "Groceries",
         description: "Family List",
-        private: false,
-        userId: 1
+        private: false
       })
         .then(list => {
           this.list = list;
@@ -53,8 +52,7 @@ describe("routes : lists", () => {
       form: {
         title: "Birthday Party Shopping",
         description: "Max's Birthday on October 31",
-        private: true,
-        userId: 1
+        private: true
       }
     };
     it("should create a new list and redirect", done => {

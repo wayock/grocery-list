@@ -55,7 +55,6 @@ describe("routes : groceries", () => {
           note: "organic",
           quantity: 10,
           purchased: false,
-          userId: 1,
           listId: this.list.id
         }
       };
@@ -162,7 +161,6 @@ describe("routes : groceries", () => {
             note: "Dutch Farms Brand",
             quantity: 2,
             purchased: false,
-            userId: 1,
             listId: this.list.id
           }
         },
@@ -181,7 +179,6 @@ describe("routes : groceries", () => {
           note: "Dutch Farms Brand",
           quantity: 2,
           purchased: false,
-          userId: 1,
           listId: this.list.id
         }
       };

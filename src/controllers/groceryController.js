@@ -20,7 +20,7 @@ module.exports = {
       note: req.body.note,
       quantity: req.body.quantity,
       userId: req.body.userId,
-      listId: req.params.listId
+      listId: 1 //req.params.listId
     };
     groceryQueries.addGroceries(newGrocery, (err, grocery) => {
       if (err) {
@@ -51,7 +51,7 @@ module.exports = {
       }
     });
   },
-  
+
   edit(req, res, next) {
     groceryQueries.getGrocery(req.params.id, (err, grocery) => {
       if (err || grocery == null) {
