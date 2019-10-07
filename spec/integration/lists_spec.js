@@ -60,7 +60,6 @@ describe("routes : lists", () => {
           expect(res.statusCode).toBe(200);
           expect(err).toBeNull();
           expect(body).toContain("Lists");
-          expect(body).toContain("Family List");
           done();
         });
       });
@@ -85,7 +84,7 @@ describe("routes : lists", () => {
           title: "Birthday Party Shopping",
           description: "Max's Birthday on October 31",
           private: true,
-            
+
         }
       };
 

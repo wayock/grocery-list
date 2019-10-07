@@ -4,38 +4,54 @@ const base = "http://localhost:3000/groceries/";
 const sequelize = require("../../src/db/models/index").sequelize;
 const Grocery = require("../../src/db/models").Grocery;
 const List = require("../../src/db/models").List;
+const User = require("../../src/db/models").User;
+const Authorizer = require("../../src/policies/groceries");
 
 describe("Grocery", () => {
   beforeEach(done => {
     this.list;
     this.grocery;
+    this.user;
     sequelize.sync({ force: true }).then(res => {
-      List.create({
-        title: "Costco",
-        description: "Great for bulk"
-      })
-      .then((list) => {
-        this.list = list;
-
-        Grocery.create({
-          item: "bread",
-          note: "whatever is on sale",
-          quantity: 1,
-          purchased: false,
-          userId: 1,
-          listId: this.list.id
+      User.create({
+       name: "john",
+       email: "starman@tesla.com",
+       password: "Trekkie4lyfe",
+       role: "member"
+     })
+     .then((user) => {
+       this.user = user;
+          List.create({
+            title: "Costco",
+            description: "Family List",
+            private: false,
+          //  userId: this.user.id,
+            groceries: [{
+              item: "bread",
+              note: "whatever is on sale",
+              quantity: 1,
+              purchased: false,
+              userId: this.user.id,
+            //  listId: this.list.id
+            }]
+        }, {
+          include: {
+            model: Grocery,
+            as: "groceries"
+          }
         })
-        .then((grocery) => {
-          this.grocery = grocery;
-          done();
-        });
+        .then(list => {
+            this.list = list;
+            this.grocery = list.groceries[0];
+            done();
+          });
       })
-        .catch((err) => {
-          console.log(err);
-          done();
-        });
+      })
+      .catch(err => {
+        console.log(err);
+        done();
+      });
     });
-  });
 
   describe("#create()", () => {
 
