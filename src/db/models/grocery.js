@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
     },
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false
     },
     listId: {
       type: DataTypes.INTEGER,

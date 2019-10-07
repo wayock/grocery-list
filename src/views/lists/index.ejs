@@ -29,7 +29,7 @@
             <br>
               <a href="/lists/new" class="btn btn-primary ">Create New List</a>
 
-              <ul class="list-group">
+              <ul class="list-group ">
             <br>
               <% lists.forEach((list) => { %>
 
@@ -37,7 +37,6 @@
                   <a href="/lists/<%= list.id %>">
                     <%= list.title %> &nbsp&nbsp
 
-                    <%= list.description %> &nbsp&nbsp
                     <% if (list.private) { %>
                        <ion-icon name="finger-print" style= "font-size: 18px;" ></ion-icon>
                     <% } else { %>

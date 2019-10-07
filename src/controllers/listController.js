@@ -36,9 +36,10 @@ module.exports = {
       let newList = {
         title: req.body.title,
         description: req.body.description,
-        private: req.body.private
+        private: req.body.private,
+        userId: req.user.id
       };
-      console.log(req.user);
+      
       listQueries.addList(newList, (err, list) => {
         if (err) {
           res.redirect(500, "/lists/new");

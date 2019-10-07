@@ -1,5 +1,6 @@
 const List = require("../models").List;
 const Grocery = require("../models").Grocery;
+const Authorizer = require("../../policies/lists")
 
 module.exports = {
   getAllLists(callback) {
@@ -68,7 +69,7 @@ module.exports = {
         return callback("List not found");
       }
 
-      const authorized = new Authorizer(req.user, topic).update();
+      const authorized = new Authorizer(req.user, list).update();
 
        if(authorized) {
 

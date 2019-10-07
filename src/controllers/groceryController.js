@@ -73,7 +73,7 @@ module.exports = {
         res.redirect(404, "/");
       } else {
         res.render("groceries/edit", { grocery });
-        console.log(grocery)
+        
       }
     });
   },
