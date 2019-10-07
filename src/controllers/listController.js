@@ -4,13 +4,20 @@ const Authorizer = require("../policies/lists");
 
 module.exports = {
   index(req, res, next) {
-    listQueries.getAllLists((err, lists) => {
-      if (err) {
-        res.redirect(500, "static/index");
-      } else {
-        res.render("lists/index", { lists });
-      }
-    });
+    const authorized = new Authorizer(req.user).show();
+
+    if (authorized) {
+      listQueries.getAllLists((err, lists) => {
+        if (err) {
+          res.redirect(500, "static/index");
+        } else {
+          res.render("lists/index", { lists });
+        }
+      });
+    } else {
+        req.flash("notice", "You must sign in to view lists.");
+        res.redirect("/users/sign_in");
+    }
   },
   new(req, res, next) {
     const authorized = new Authorizer(req.user).new();

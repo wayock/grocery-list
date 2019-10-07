@@ -6,13 +6,19 @@ const Authorizer = require("../policies/groceries");
 
 module.exports = {
   index(req, res, next) {
-    groceryQueries.getAllGroceries((err, groceries) => {
-      if (err) {
-        res.redirect(500, "static/index");
+    const authorized = new Authorizer(req.user).show();
+      if(authorized){
+        groceryQueries.getAllGroceries((err, groceries) => {
+          if (err) {
+            res.redirect(500, "static/index");
+          } else {
+            res.render("groceries/index", { groceries });
+          }
+        });
       } else {
-        res.render("groceries/index", { groceries });
+          req.flash("notice", "You must sign in to view lists.");
+          res.redirect("/users/sign_in");
       }
-    });
   },
   new(req, res, next) {
     res.render("groceries/new", { listId: req.params.listId });
@@ -26,7 +32,7 @@ module.exports = {
           quantity: req.body.quantity,
           userId: req.user.id,
           listId: req.params.listId
-        }; console.log(newGrocery)
+        };
         groceryQueries.addGroceries(newGrocery, (err, grocery) => {
           if (err) {
             res.redirect(500, "/groceries/new");

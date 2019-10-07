@@ -23,4 +23,9 @@ module.exports = class GroceryPolicy extends ApplicationPolicy {
   destroy() {
     return this.update();
   }
+
+  show() {
+    return this.update();
+  }
+
 }

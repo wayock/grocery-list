@@ -3,6 +3,10 @@ const ApplicationPolicy = require("./application");
 module.exports = class ListPolicy extends ApplicationPolicy {
 
  // #2
+  show() {
+    return this.user != null;
+  }
+
   new() {
     return this.user != null;
   }

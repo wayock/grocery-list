@@ -24,9 +24,6 @@ module.exports = class ApplicationPolicy {
     return this.new();
   }
 
-  show() {
-    return true;
-  }
 
  // #4
   edit() {
