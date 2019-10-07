@@ -3,18 +3,42 @@ const server = require("../../src/server");
 const base = "http://localhost:3000/lists/";
 const sequelize = require("../../src/db/models/index").sequelize;
 const List = require("../../src/db/models").List;
+const User = require("../../src/db/models").User;
 
+function authorizeUser(role, done) {
+      User.create({
+        name: "Johnny B",
+        email: "johnnyBgood@music.com",
+        password: "chuckberry",
+        role: role
+      })
+      .then((user) => {
+        request.get({         // mock authentication
+          url: "http://localhost:3000/auth/fake",
+          form: {
+            role: user.role,     // mock authenticate as `role` user
+            userId: user.id,
+            email: user.email
+          }
+      },
+      (err, res, body) => {
+        done();
+      }
+    );
+  });
+}
 describe("routes : lists", () => {
-  beforeEach(done => {
-    this.list;
-    sequelize.sync({ force: true }).then(res => {
+  beforeEach((done) => { // before each context
+    this.list;   // define variables and bind to context
+    sequelize.sync({ force: true }).then(() => {  // clear database
       List.create({
         title: "Groceries",
         description: "Family List",
-        private: false
+        private: false,
+        userId: this.user.id,
       })
-        .then(list => {
-          this.list = list;
+        .then(res => {
+          this.list = res;
           done();
         })
         .catch(err => {
@@ -23,6 +47,14 @@ describe("routes : lists", () => {
         });
     });
   });
+});
+
+describe("member user performing CRUD actions for List", () => {
+
+  beforeEach((done) => {  // before each suite in member context
+        authorizeUser("member", done);
+  });
+
 
   describe("GET /lists", () => {
     it("should return a status code 200 and all lists", done => {

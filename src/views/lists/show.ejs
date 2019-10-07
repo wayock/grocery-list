@@ -6,7 +6,8 @@
   <body>
     <% include ../static/partials/navbar.ejs %>
 
-    <main class="container">
+    <main class="container  col-md-10 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
+      <a class="btn btn-outline-primary" href="/lists/">Go Back to Lists</a>
       <h1>
         <%= list.title %> &nbsp&nbsp
         <% if (list.private) { %>
@@ -22,12 +23,15 @@
         <button type="submit" class="btn btn-secondary">Delete <%= list.title %></button>
       </form>
 
+      <br>
+      <br>
+
       <h2>Groceries</h2>
       <br>
         <a href="/lists/<%= list.id %>/groceries/new" class="btn btn-primary">New Item</a>
       <br>
 
-       <ul class="list-group">
+       <ul class="list-group col-md-12 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
          <% list.groceries.sort((a,b) => a.purchased - b.purchased).forEach((grocery) => { %>
            <li class="list-group-item">
              <a href="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/purchased" class="btn btn-outline-secondary">
@@ -37,7 +41,9 @@
                     <ion-icon name="square-outline"></ion-icon>
                 <% } %>
              </a>
-             <a href="/lists/<%= list.id %>/groceries/<%= grocery.id %>"> <%= grocery.item %> </a>
+             <a href="/lists/<%= list.id %>/groceries/<%= grocery.id %>">
+               <%= grocery.quantity %>
+               <%= grocery.item %> </a>
 
              <a href="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/edit" class="btn btn-secondary">Edit</a>
              <form style="display:initial" action="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/destroy" method="post">

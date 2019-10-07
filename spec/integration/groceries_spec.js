@@ -4,35 +4,51 @@ const base = "http://localhost:3000/lists/";
 const sequelize = require("../../src/db/models/index").sequelize;
 const Grocery = require("../../src/db/models").Grocery;
 const List = require("../../src/db/models").List;
+const User = require("../../src/db/models").User;
 
 describe("routes : groceries", () => {
   beforeEach(done => {
     this.list;
     this.grocery;
+    this.user;
     sequelize.sync({ force: true }).then(res => {
-      List.create({
-        title: "Costco",
-        description: "Great for bulk"
+      User.create({
+        name: "Johnny B",
+        email: "johnnyBgood@music.com",
+        password: "chuckberry"
       })
-        .then(list => {
-          this.list = list;
+      .then((user) => {
+        this.user = user;
 
-          Grocery.create({
+        List.create({
+          title: "Groceries",
+          description: "Family List",
+          private: false,
+          //userId: this.user.id,
+          groceries: [{
             item: "bread",
             note: "whatever is on sale",
             quantity: 1,
             purchased: false,
-            userId: 1,
-            listId: this.list.id
-          }).then(grocery => {
-            this.grocery = grocery;
-            done();
-          });
-        })
-        .catch(err => {
-          console.log(err);
+            userId: this.user.id,
+          //  listId: this.list.id
+          }]
+      }, {
+        include: {
+          model: Grocery,
+          as: "groceries"
+        }
+      })
+      .then(grocery => {
+          this.list = list;
+          this.grocery = list.groceries[0];
           done();
         });
+      })
+      .catch(err => {
+        console.log(err);
+        done();
+      });
     });
   });
 
@@ -47,7 +63,7 @@ describe("routes : groceries", () => {
   });
 
   describe("POST /lists/:listId/groceries/create", () => {
-    it("should create a new grocery item and redirect", done => {
+    it("should create a new grocery item with listId, userId and redirect", done => {
       const options = {
         url: `${base}${this.list.id}/groceries/create`,
         form: {
@@ -55,7 +71,8 @@ describe("routes : groceries", () => {
           note: "organic",
           quantity: 10,
           purchased: false,
-          listId: this.list.id
+          listId: this.list.id,
+          userId: this.user.id
         }
       };
       request.post(options, (err, res, body) => {
@@ -67,6 +84,7 @@ describe("routes : groceries", () => {
             expect(grocery.quantity).toBe(10);
             expect(grocery.purchased).toBe(false);
             expect(grocery.listId).not.toBeNull();
+            expect(post.userId).toBe(this.user.id);
             done();
           })
           .catch(err => {

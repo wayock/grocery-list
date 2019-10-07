@@ -15,7 +15,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: false
     },
-    userId: DataTypes.INTEGER,
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     listId: {
       type: DataTypes.INTEGER,
       allowNull: false
@@ -27,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "listId",
       onDelete: "CASCADE"
     });
+    Grocery.belongsTo(models.User, {
+     foreignKey: "userId",
+     onDelete: "CASCADE"
+   });
   };
   return Grocery;
 };

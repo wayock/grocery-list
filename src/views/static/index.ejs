@@ -12,13 +12,19 @@
 
         <!--  Header -->
         <header class="row centered-form center-block text-center">
-          <section class="container col-md-12 col-md-offset-1 border border-success rounded p-3 mb-2 text-dark">
+          <section class="container col-md-12 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
 
      <header class="jumbotron my-4">
        <h1 class="display-3">The Grocery List</h1>
-       <p class="lead">An application for users to share information.</p>
-       <a href="#" class="btn btn-primary btn-lg">Sign up</a>
-       <a href="/users/sign_up" class="btn btn-primary btn-lg">Sign up</a>
+       <p class="lead">An application for users to create and share grocery lists.</p>
+       <div> <ion-icon name="basket" style= "font-size: 200px;" ></ion-icon> </div>
+       <% if(currentUser) { %>
+         <a href="/lists" class="btn btn-primary btn-lg">View Lists</a>
+       <% } else { %>
+         <a href="/users/sign_in" class="btn btn-primary btn-lg">Sign in</a>
+         <a href="/users/sign_up" class="btn btn-primary btn-lg">Sign up</a>
+       <% }%>
+
     </header>
 
           </section>

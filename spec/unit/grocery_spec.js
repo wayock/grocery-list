@@ -117,4 +117,43 @@ describe("Grocery", () => {
 
     });
 
+    describe("#setUser()", () => {
+
+      it("should associate a grocery and a user together", (done) => {
+
+        User.create({
+          name: "joe",
+          email: "ada@example.com",
+          password: "password"
+        })
+        .then((newUser) => {
+
+          expect(this.grocery.userId).toBe(this.user.id);
+
+          this.grocery.setUser(newUser)
+          .then((grocery) => {
+
+            expect(this.grocery.userId).toBe(newUser.id);
+            done();
+
+          });
+        })
+      });
+
+    });
+
+    describe("#getUser()", () => {
+
+      it("should return the associated list", (done) => {
+
+        this.grocery.getUser()
+        .then((associatedUser) => {
+          expect(associatedUser.email).toBe("starman@tesla.com");
+          done();
+        });
+
+      });
+
+    });
+
 });
