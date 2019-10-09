@@ -9,12 +9,12 @@
     <main class="container  col-md-10 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
       <a class="btn btn-outline-primary" href="/lists/">Go Back to Lists</a>
       <div id="listTitle">
-
-      <a href="/lists/<%= id %>/edit" class="btn btn-secondary">Edit List</a>
-      <form style="display:initial" action="/lists/<%= id %>/destroy" method="post">
-        <button type="submit" class="btn btn-secondary">Delete List</button>
-      </form>
-
+        <h1>List Name </h1>
+        <a href="/lists/<%= id %>/edit" class="btn btn-secondary">Edit List</a>
+        <form style="display:initial" action="/lists/<%= id %>/destroy" method="post">
+          <button type="submit" class="btn btn-secondary">Delete List</button>
+        </form>
+      </div>
 
       <br>
       <br>
@@ -62,7 +62,7 @@
             </li>`
       }
       function updateGroceries() {
-        fetch('https://localhost:3000/api/lists/<%= id %>')
+        fetch('http://localhost:3000/api/lists/<%= id %>')
          .then(
           res => res.json()
         ).then(
