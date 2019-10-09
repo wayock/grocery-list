@@ -56,6 +56,20 @@ module.exports = {
         callback(err);
       });
   },
+  editList(id, callback) {
+   return List.findByPk(id,{
+     include: [{
+       model: Grocery,
+       as: "groceries"
+     }]
+   })
+     .then(list => {
+       callback(null, list);
+     })
+     .catch(err => {
+       callback(err);
+     });
+ },
 
   updateList(req, updatedList, callback) {
     return List.findByPk(req.params.id).then(list => {

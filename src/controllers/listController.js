@@ -54,7 +54,14 @@ module.exports = {
   },
 
   show(req, res) {
-    res.render("lists/show", { id: req.params.id });
+    const authorized = new Authorizer(req.user).show();
+
+    if (authorized) {
+      res.render("lists/show", { id: req.params.id });
+    } else {
+      req.flash("notice", "You are not authorized to do that.");
+      res.redirect("/lists");
+    }
   },
 
   showAPI(req, res) {
@@ -83,7 +90,7 @@ module.exports = {
   },
 
   edit(req, res, next) {
-    listQueries.getList(req.params.id, (err, list) => {
+    listQueries.editList(req.params.id, (err, list) => {
       if (err || list == null) {
         res.redirect(404, "/");
       } else {
