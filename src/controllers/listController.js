@@ -39,7 +39,7 @@ module.exports = {
         private: req.body.private,
         userId: req.user.id
       };
-      
+
       listQueries.addList(newList, (err, list) => {
         if (err) {
           res.redirect(500, "/lists/new");
@@ -53,14 +53,14 @@ module.exports = {
     }
   },
 
-  show(req, res, next) {
-    listQueries.getList(req.params.id, (err, list) => {
-      if (err || list == null) {
-        res.redirect(404, "/");
-      } else {
-        res.render("lists/show", { list });
-      }
-    });
+  show(req, res) {
+    res.render("lists/show", { id: req.params.id });
+  },
+
+  showAPI(req, res) {
+    listQueries.getList(req.params.id).then(
+      list => res.json({list})
+    )
   },
 
   destroy(req, res, next) {
