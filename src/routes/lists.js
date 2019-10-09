@@ -6,6 +6,7 @@ const listController = require("../controllers/listController")
 router.get("/lists", listController.index);
 router.get("/lists/new", listController.new);
 router.get("/lists/:id", listController.show);
+router.get("/api/lists/:id", listController.showAPI);
 router.get("/lists/:id/edit", listController.edit);
 router.post("/lists/create", validation.validateLists, listController.create);
 router.post("/lists/:id/destroy", listController.destroy);

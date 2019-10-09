@@ -17,7 +17,7 @@ module.exports = class ListPolicy extends ApplicationPolicy {
 
  // #3
   edit() {
-    return this.user != null;
+    return this.new();
   }
 
   update() {

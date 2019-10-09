@@ -8,56 +8,80 @@
 
     <main class="container  col-md-10 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
       <a class="btn btn-outline-primary" href="/lists/">Go Back to Lists</a>
-      <h1>
-        <%= list.title %> &nbsp&nbsp
-        <% if (list.private) { %>
-           <ion-icon name="finger-print" style= "font-size: 18px;" ></ion-icon>
-        <% } else { %>
-           <ion-icon name="people" style= "font-size: 18px;"></ion-icon>
-        <% } %>
-      </h1>
+      <div id="listTitle">
 
-      <p>Description:&nbsp <%= list.description %></p>
-      <a href="/lists/<%= list.id %>/edit" class="btn btn-secondary">Edit <%= list.title %></a>
-      <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
-        <button type="submit" class="btn btn-secondary">Delete <%= list.title %></button>
+      <a href="/lists/<%= id %>/edit" class="btn btn-secondary">Edit List</a>
+      <form style="display:initial" action="/lists/<%= id %>/destroy" method="post">
+        <button type="submit" class="btn btn-secondary">Delete List</button>
       </form>
+
 
       <br>
       <br>
 
       <h2>Groceries</h2>
       <br>
-        <a href="/lists/<%= list.id %>/groceries/new" class="btn btn-primary">New Item</a>
+        <a href="/lists/<%= id %>/groceries/new" class="btn btn-primary">New Item</a>
       <br>
 
-       <ul class="list-group col-md-12 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
-         <% list.groceries.sort((a,b) => a.purchased - b.purchased).forEach((grocery) => { %>
-           <li class="list-group-item">
-             <a href="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/purchased" class="btn btn-outline-secondary">
-                <% if(grocery.purchased) { %>
-                    <ion-icon name="checkbox"></ion-icon>
-                <% } else { %>
-                    <ion-icon name="square-outline"></ion-icon>
-                <% } %>
-             </a>
-             <a href="/lists/<%= list.id %>/groceries/<%= grocery.id %>">
-               <%= grocery.quantity %>
-               <%= grocery.item %> </a>
+       <ul id="groceries" class="list-group col-md-12 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
 
-             <a href="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/edit" class="btn btn-secondary">Edit</a>
-             <form style="display:initial" action="/lists/<%= grocery.listId %>/groceries/<%= grocery.id %>/destroy" method="post">
-               <button type="submit" class="btn btn-secondary">Delete</button>
-             </form>
-           </li>
-         <% }) %>
        </ul>
-       <form style="display:initial" action="/lists/<%= list.id %>/destroy/purchased" method="post">
-         <button type="submit" class="btn btn-secondary">Delete Checked Items</button>
-       </form>
+
+       <form style="display:initial" action="/lists/<%= id %>/destroy/purchased" method="post">
+          <button type="submit" class="btn btn-secondary">Delete Checked Items</button>
+        </form>
+
     </main>
 
     <% include ../static/partials/baseScripts.ejs %>
+
+    <script type="text/javascript">
+
+  
+
+
+      const groceriesUl = document.getElementById("groceries");
+
+      function groceryHTML(grocery){
+        const iconName = grocery.purchased ? "checkbox" : "square-outline";
+        return `
+            <li class="list-group-item">
+             <a href="/lists/${grocery.listId}/groceries/${grocery.id}/purchased" class="btn btn-outline-secondary">
+
+                    <ion-icon name="${iconName}"></ion-icon>
+
+             </a>
+             <a href="/lists/<%= id %>/groceries/${grocery.id}">
+               ${grocery.quantity}
+               ${grocery.item} </a>
+             <a href="/lists/${grocery.listId}/groceries/${grocery.id}/edit" class="btn btn-secondary">Edit</a>
+             <form style="display:initial" action="/lists/${grocery.listId }/groceries/${grocery.id}/destroy" method="post">
+               <button type="submit" class="btn btn-secondary">Delete</button>
+             </form>
+            </li>`
+      }
+      function updateGroceries() {
+        fetch('http://localhost:3000/api/lists/<%= id %>')
+         .then(
+          res => res.json()
+        ).then(
+          data => {
+            console.log(data)
+            let html = "";
+            data.list.groceries.sort((a,b) => a.purchased - b.purchased).forEach(grocery => {
+              html += groceryHTML(grocery);
+            });
+            console.log(data.list)
+            groceriesUl.innerHTML = html;
+            console.log(html);
+          }
+        ).catch(console.log);;
+      }
+      updateGroceries();
+      setInterval(updateGroceries, 3000);
+
+    </script>
 
   </body>
 </html>

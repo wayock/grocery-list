@@ -6,6 +6,7 @@ const expressValidator = require("express-validator");
 const session = require("express-session");
 const flash = require("express-flash");
 const passportConfig = require("./passport-config");
+const cors = require('cors')
 
 module.exports = {
   init(app, express) {
@@ -28,6 +29,8 @@ module.exports = {
    app.use((req,res,next) => {
      res.locals.currentUser = req.user;
      next();
+
+   app.use(cors())
    })
   }
 };

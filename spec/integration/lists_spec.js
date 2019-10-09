@@ -137,6 +137,16 @@ describe("routes : lists", () => {
         request.get(`${base}${this.list.id}`, (err, res, body) => {
           expect(err).toBeNull();
           expect(body).toContain("Groceries");
+          done();
+        });
+      });
+    });
+
+    describe("GET api/lists/:id", () => {
+      it("should render the api data of the selected list", done => {
+        request.get(`http://localhost:3000/api/lists/${this.list.id}`, (err, res, body) => {
+          expect(err).toBeNull();
+          expect(body).toContain("List");
           expect(body).toContain("Family List");
           done();
         });
