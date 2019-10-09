@@ -62,7 +62,7 @@
             </li>`
       }
       function updateGroceries() {
-        fetch('https://localhost:3000/api/lists/<%= id %>')
+        fetch('https://wayock-grocery-list.herokuapp.com/api/lists/<%= id %>')
          .then(
           res => res.json()
         ).then(
