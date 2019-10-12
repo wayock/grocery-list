@@ -43,9 +43,9 @@
                        <ion-icon name="people" style= "font-size: 18px;"></ion-icon>
                     <% } %>
                   </a>
-                  <a href="/lists/<%= list.id %>/edit" class="btn btn-outline-secondary">Edit</a>
+                  <a href="/lists/<%= list.id %>/edit" class="btn btn-outline-secondary"><ion-icon name="create"></ion-icon></a>
                   <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
-                    <button type="submit" class="btn btn-outline-secondary">Delete</button>
+                    <button type="submit" class="btn btn-outline-secondary"><ion-icon name="trash"></ion-icon></button>
                   </form>
                 </li>
               <% }) %>

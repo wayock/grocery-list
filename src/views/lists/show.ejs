@@ -8,6 +8,8 @@
 
     <main class="container  col-md-10 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
       <a class="btn btn-outline-primary" href="/lists/">Go Back to Lists</a>
+      <br>
+      <br>
       <div id="listTitle">
 
       <a href="/lists/<%= id %>/edit" class="btn btn-secondary">Edit List</a>
@@ -23,11 +25,11 @@
       <br>
         <a href="/lists/<%= id %>/groceries/new" class="btn btn-primary">New Item</a>
       <br>
-
+      <br>
        <ul id="groceries" class="list-group col-md-12 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
 
        </ul>
-
+       <br>
        <form style="display:initial" action="/lists/<%= id %>/destroy/purchased" method="post">
           <button type="submit" class="btn btn-secondary">Delete Checked Items</button>
         </form>
@@ -55,14 +57,16 @@
              <a href="/lists/<%= id %>/groceries/${grocery.id}">
                ${grocery.quantity}
                ${grocery.item} </a>
-             <a href="/lists/${grocery.listId}/groceries/${grocery.id}/edit" class="btn btn-secondary">Edit</a>
+             <a href="/lists/${grocery.listId}/groceries/${grocery.id}/edit" class="btn btn-secondary"><ion-icon name="create"></ion-icon></a>
              <form style="display:initial" action="/lists/${grocery.listId }/groceries/${grocery.id}/destroy" method="post">
-               <button type="submit" class="btn btn-secondary">Delete</button>
+               <button type="submit" class="btn btn-secondary"><ion-icon name="trash"></ion-icon></button>
              </form>
             </li>`
       }
       function updateGroceries() {
-        fetch('https://wayock-grocery-list.herokuapp.com/api/lists/<%= id %>')
+        fetch('http://localhost:3000/api/lists/<%= id %>')
+        //'https://wayock-grocery-list.herokuapp.com/api/lists/<%= id %>' for deployment
+        //'http://localhost:3000/api/lists/<%= id %>' for development
          .then(
           res => res.json()
         ).then(
