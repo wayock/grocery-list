@@ -7,6 +7,10 @@ module.exports = class ListPolicy extends ApplicationPolicy {
     return this.user != null;
   }
 
+  showPrivate() {
+    return this._isOwner();
+  }
+
   new() {
     return this.user != null;
   }
@@ -17,7 +21,7 @@ module.exports = class ListPolicy extends ApplicationPolicy {
 
  // #3
   edit() {
-    return this.new();
+    return this.user != null;
   }
 
   update() {

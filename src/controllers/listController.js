@@ -56,14 +56,16 @@ module.exports = {
   },
 
   show(req, res) {
-    const authorized = new Authorizer(req.user).show();
+      const authorized = new Authorizer(req.user).show();
 
-    if (authorized) {
-      res.render("lists/show", { id: req.params.id });
-    } else {
-      req.flash("notice", "You are not authorized to do that.");
-      res.redirect("/lists");
-    }
+      if (authorized) {
+
+          res.render("lists/show", { id: req.params.id });
+
+      } else {
+        req.flash("notice", "You are not authorized to do that.");
+        res.redirect("/lists");
+      }
   },
 
   showAPI(req, res) {
