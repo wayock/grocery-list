@@ -1,6 +1,8 @@
 const List = require("../models").List;
 const Grocery = require("../models").Grocery;
-const Authorizer = require("../../policies/lists")
+const Authorizer = require("../../policies/lists");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 module.exports = {
   getAllLists(callback) {
@@ -12,6 +14,25 @@ module.exports = {
         callback(err);
       });
   },
+
+  getPublicLists(user, callback){
+    let options;
+    if (user) {
+      options = {[Op.or]:[{userId:user.id}, {private:false}]}
+
+    } else {
+      options = {
+        private:false
+      };
+    }
+    return List.findAll({where: options})
+     .then((list) => {
+       callback(null, list);
+     })
+     .catch((err) => {
+       callback(err);
+     })
+   },
   addList(newList, callback) {
     return List.create({
       title: newList.title,

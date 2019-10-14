@@ -1,13 +1,15 @@
 const listQueries = require("../db/queries/lists.js");
 const UserQueries = require("../db/queries/users.js");
 const Authorizer = require("../policies/lists");
+const Sequelize = require("sequelize");
+const Op = Sequelize.Op;
 
 module.exports = {
   index(req, res, next) {
     const authorized = new Authorizer(req.user).show();
 
     if (authorized) {
-      listQueries.getAllLists((err, lists) => {
+      listQueries.getPublicLists(req.user, (err, lists) => {
         if (err) {
           res.redirect(500, "static/index");
         } else {
