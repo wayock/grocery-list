@@ -6,7 +6,7 @@
   <body>
     <% include ../static/partials/navbar.ejs %>
 
-    <main class="container  col-md-10 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
+    <main class="container  col-md-8 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
       <a class="btn btn-outline-primary" href="/lists/">Go Back to Lists</a>
       <br>
       <br>
@@ -54,17 +54,20 @@
                     <ion-icon name="${iconName}"></ion-icon>
 
              </a>
-             <a href="/lists/<%= list.id %>/groceries/${grocery.id}">
+
+             <a style ="text-align:left" href="/lists/<%= list.id %>/groceries/${grocery.id}">
                ${grocery.quantity}
                ${grocery.item} </a>
-             <a href="/lists/${grocery.listId}/groceries/${grocery.id}/edit" class="btn btn-secondary"><ion-icon name="create"></ion-icon></a>
-             <form style="display:initial" action="/lists/${grocery.listId }/groceries/${grocery.id}/destroy" method="post">
-               <button type="submit" class="btn btn-secondary"><ion-icon name="trash"></ion-icon></button>
-             </form>
+               <span style="float:right;">
+                 <a href="/lists/${grocery.listId}/groceries/${grocery.id}/edit" class="btn btn-secondary"><ion-icon name="create"></ion-icon></a>
+                 <form style="display:initial" action="/lists/${grocery.listId }/groceries/${grocery.id}/destroy" method="post">
+                   <button type="submit" class="btn btn-secondary"><ion-icon name="trash"></ion-icon></button>
+                 </form>
+               </span>
             </li>`
       }
       function updateGroceries() {
-        
+
         fetch(window.location.origin + '/api/lists/<%= list.id %>')
         //'https://wayock-grocery-list.herokuapp.com/api/lists/<%= list.id %>' for deployment
         //'http://localhost:3000/api/lists/<%= list.id %>' for development
