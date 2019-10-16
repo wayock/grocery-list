@@ -3,8 +3,17 @@ const ApplicationPolicy = require("./application");
 module.exports = class ListPolicy extends ApplicationPolicy {
 
  // #2
+
+  index(){
+    return this.user != null
+  }
+
   show() {
-    return this.user != null;
+    return this.user != null && (this._isOwner() || !this.record.private);
+  }
+
+  showPrivate() {
+    return this._isOwner();
   }
 
   new() {
@@ -17,7 +26,7 @@ module.exports = class ListPolicy extends ApplicationPolicy {
 
  // #3
   edit() {
-    return this.new();
+    return this.user != null;
   }
 
   update() {

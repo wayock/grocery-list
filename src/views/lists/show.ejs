@@ -11,9 +11,9 @@
       <br>
       <br>
       <div id="listTitle">
-
-      <a href="/lists/<%= id %>/edit" class="btn btn-secondary">Edit List</a>
-      <form style="display:initial" action="/lists/<%= id %>/destroy" method="post">
+      <h1> <%= list.title %> </h1>
+      <a href="/lists/<%= list.id %>/edit" class="btn btn-secondary">Edit List</a>
+      <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
         <button type="submit" class="btn btn-secondary">Delete List</button>
       </form>
 
@@ -23,14 +23,14 @@
 
       <h2>Groceries</h2>
       <br>
-        <a href="/lists/<%= id %>/groceries/new" class="btn btn-primary">New Item</a>
+        <a href="/lists/<%= list.id %>/groceries/new" class="btn btn-primary">New Item</a>
       <br>
       <br>
        <ul id="groceries" class="list-group col-md-12 col-md-offset-1 border border-dark rounded p-3 mb-2 text-dark">
 
        </ul>
        <br>
-       <form style="display:initial" action="/lists/<%= id %>/destroy/purchased" method="post">
+       <form style="display:initial" action="/lists/<%= list.id %>/destroy/purchased" method="post">
           <button type="submit" class="btn btn-secondary">Delete Checked Items</button>
         </form>
 
@@ -54,7 +54,7 @@
                     <ion-icon name="${iconName}"></ion-icon>
 
              </a>
-             <a href="/lists/<%= id %>/groceries/${grocery.id}">
+             <a href="/lists/<%= list.id %>/groceries/${grocery.id}">
                ${grocery.quantity}
                ${grocery.item} </a>
              <a href="/lists/${grocery.listId}/groceries/${grocery.id}/edit" class="btn btn-secondary"><ion-icon name="create"></ion-icon></a>
@@ -64,9 +64,10 @@
             </li>`
       }
       function updateGroceries() {
-        fetch('https://wayock-grocery-list.herokuapp.com/api/lists/<%= id %>')
-        //'https://wayock-grocery-list.herokuapp.com/api/lists/<%= id %>' for deployment
-        //'http://localhost:3000/api/lists/<%= id %>' for development
+        
+        fetch(window.location.origin + '/api/lists/<%= list.id %>')
+        //'https://wayock-grocery-list.herokuapp.com/api/lists/<%= list.id %>' for deployment
+        //'http://localhost:3000/api/lists/<%= list.id %>' for development
          .then(
           res => res.json()
         ).then(

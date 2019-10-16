@@ -6,7 +6,7 @@ const Op = Sequelize.Op;
 
 module.exports = {
   index(req, res, next) {
-    const authorized = new Authorizer(req.user).show();
+    const authorized = new Authorizer(req.user).index();
 
     if (authorized) {
       listQueries.getPublicLists(req.user, (err, lists) => {
@@ -56,19 +56,34 @@ module.exports = {
   },
 
   show(req, res) {
-    const authorized = new Authorizer(req.user).show();
+    listQueries.getList(req.params.id).then(
+      list => {
 
-    if (authorized) {
-      res.render("lists/show", { id: req.params.id });
-    } else {
-      req.flash("notice", "You are not authorized to do that.");
-      res.redirect("/lists");
-    }
+        const authorized = new Authorizer(req.user, list).show();
+
+        if (authorized) {
+
+            res.render("lists/show", { list });
+
+        } else {
+          req.flash("notice", "You are not authorized to do that.");
+          res.redirect("/lists");
+        }
+    })
   },
 
   showAPI(req, res) {
     listQueries.getList(req.params.id).then(
-      list => res.json({list})
+      list => {
+        const authorized = new Authorizer(req.user, list).show();
+
+        if (authorized) {
+          res.json({list})
+        } else {
+          res.json({error: 'not authorized'})
+        }
+
+      }
     )
   },
 
