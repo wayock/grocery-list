@@ -23,7 +23,7 @@
         <!-- /.row -->
         <section class="row centered-form center-block text-center">
 
-          <section class="container col-md-10 col-md-offset-1 border  rounded p-3 mb-2 bg-secondary text-white"">
+          <section class="container col-md-8 col-md-offset-1 border  rounded p-3 mb-2 bg-secondary text-white"">
 
             <h2 class="card-title">Lists</h2>
             <br>
@@ -33,7 +33,7 @@
             <br>
               <% lists.forEach((list) => { %>
 
-                <li class="list-group-item">
+                <li style="text-align:left"  class="list-group-item">
                   <a href="/lists/<%= list.id %>">
                     <%= list.title %> &nbsp&nbsp
 
@@ -43,10 +43,12 @@
                        <ion-icon name="people" style= "font-size: 18px;"></ion-icon>
                     <% } %>
                   </a>
-                  <a href="/lists/<%= list.id %>/edit" class="btn btn-outline-secondary"><ion-icon name="create"></ion-icon></a>
-                  <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
-                    <button type="submit" class="btn btn-outline-secondary"><ion-icon name="trash"></ion-icon></button>
-                  </form>
+                  <span style="float:right;">
+                    <a href="/lists/<%= list.id %>/edit" class="btn btn-outline-secondary"><ion-icon name="create"></ion-icon></a>
+                    <form style="display:initial" action="/lists/<%= list.id %>/destroy" method="post">
+                      <button type="submit" class="btn btn-outline-secondary"><ion-icon name="trash"></ion-icon></button>
+                    </form>
+                  </span>
                 </li>
               <% }) %>
             </ul>
