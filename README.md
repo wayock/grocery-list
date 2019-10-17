@@ -6,9 +6,11 @@ https://wayock-grocery-list.herokuapp.com
 ----
 ### Need a Better List?
 
-Do you often go grocery shopping for multiple people?  
-Do you need a better way to keep track of grocery items?  
-Wish you could share your grocery list with others in real time to have a better, more efficient shopping experience?
+- Do you need a better way to keep track of grocery items?  
+
+- Do you often go grocery shopping for multiple people?  
+
+- Wish you could share your grocery list with others in real time to have a better, more efficient shopping experience?
 
 You’re in luck! The Grocery List web application is just what you need to keep track of your groceries.
 
