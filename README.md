@@ -25,5 +25,5 @@ To use The Grocery List, users must create a free account to view and create lis
 ### Future Improvements
 
 If given more time, two things I would change about the application are:
-1. Use socket.io to update the app in real time instead of using the setInterval timer to update the api data.
+1. Use socket.io to update the app in real time instead of using the `setInterval()` function to update the api data.
 2. Allow users to share private lists with a select group of collaborators.
